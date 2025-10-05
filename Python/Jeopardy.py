@@ -237,7 +237,7 @@ questions_data = {
         },
         {
             "question": "Según Big Think (2024), ¿de qué depende la innovación en un cluster?",
-            "answer": "De la interacción social, cultural y académica, no del “genio solitario”",
+            "answer": "De la interacción social, cultural y académica, no del 'genio solitario'",
         },
     ],
 }
@@ -617,7 +617,8 @@ def draw_board():
                 pygame.draw.rect(screen, BLUE_MEDIUM, rect, border_radius=5)
                 pygame.draw.rect(screen, GOLD, rect, 2, border_radius=5)
 
-                value_surf = value_font.render(f"${question_values[j]}", True, GOLD)
+                # MODIFICACIÓN AQUÍ: Eliminar el signo $
+                value_surf = value_font.render(str(question_values[j]), True, GOLD)
                 value_rect = value_surf.get_rect(center=rect.center)
                 screen.blit(value_surf, value_rect)
 
@@ -691,9 +692,9 @@ def draw_question():
     # Dibujar temporizador
     draw_timer(screen, modal_rect)
 
-    # Información del turno con más separación superior
+    # MODIFICACIÓN AQUÍ: Eliminar el signo $ del valor de la pregunta
     turn_info_text = (
-        f"Turno de: {selected_teams[current_turn]} - Valor: ${current_question_value}"
+        f"Turno de: {selected_teams[current_turn]} - Valor: {current_question_value}"
     )
     turn_info_surf = modal_font.render(turn_info_text, True, YELLOW)
     turn_info_text_rect = turn_info_surf.get_rect(
@@ -778,12 +779,12 @@ def draw_question():
 def assign_points(team_index):
     team_scores[team_index] += current_question_value
     print(
-        f"Puntos asignados a {selected_teams[team_index]}: +${current_question_value}"
+        f"Puntos asignados a {selected_teams[team_index]}: +{current_question_value}"
     )
 
 
 def no_points():
-    print(f"Ningún equipo recibió puntos por esta pregunta (${current_question_value})")
+    print(f"Ningún equipo recibió puntos por esta pregunta ({current_question_value})")
 
 
 def close_question_modal():
@@ -873,6 +874,7 @@ def main():
                 assign_to_current_button.check_hover(mouse_pos)
                 assign_to_other_button.check_hover(mouse_pos)
                 cancel_assign_button.check_hover(mouse_pos)
+
                 if game_state == "select_team":
                     for button in team_buttons:
                         button.check_hover(mouse_pos)
@@ -886,7 +888,6 @@ def main():
                 WIDTH, HEIGHT = event.size
                 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
                 initialize_fonts()
-                calculate_dimensions()
                 update_button_positions()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -901,6 +902,8 @@ def main():
                         team_scores = [0] * 7
                         used_questions = {}
                         current_question = None
+                        show_answer = False
+                        game_state = "board"
                         current_turn = 0
                         selected_teams = random.sample(team_names, 7)
                         print("Juego reiniciado")
@@ -917,12 +920,7 @@ def main():
                         show_menu = False
                 elif game_state == "board":
                     handle_board_click(mouse_pos)
-                elif game_state in [
-                    "question",
-                    "answer",
-                    "assign_points",
-                    "select_team",
-                ]:
+                elif game_state == "question":
                     if not assigning_points:
                         if show_answer_button.is_clicked(mouse_pos):
                             show_answer = True
@@ -942,14 +940,14 @@ def main():
                         elif cancel_assign_button.is_clicked(mouse_pos):
                             assigning_points = False
                             game_state = "question"
-                        elif game_state == "select_team":
-                            for i, button in enumerate(team_buttons):
-                                if button.is_clicked(mouse_pos):
-                                    assign_points(i)
-                                    close_question_modal()
-                                    break
+                elif game_state == "select_team":
+                    for i, button in enumerate(team_buttons):
+                        if button.is_clicked(mouse_pos):
+                            assign_points(i)
+                            close_question_modal()
+                            break
 
-        # Verificar temporizador
+        # Verificar si el tiempo ha expirado
         if timer_active and not time_expired:
             elapsed_time = time.time() - question_start_time
             if elapsed_time >= timer_duration:
@@ -957,11 +955,13 @@ def main():
                 timer_active = False
                 print("¡Tiempo agotado!")
 
+        # Color de la ventana principal
         screen.fill(BLUE_DARK)
 
         if game_state == "board":
             draw_board()
         elif game_state in ["question", "answer", "assign_points", "select_team"]:
+            draw_board()
             draw_question()
 
         pygame.display.flip()
