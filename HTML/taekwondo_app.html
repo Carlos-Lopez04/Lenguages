@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Puntuación - Taekwondo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #006847, #ffffff, #ce1126);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background-color: #006847;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 5px solid #ce1126;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            color: #006847;
+            border: 3px solid #ce1126;
+            padding: 5px;
+        }
+        
+        .school-info {
+            flex-grow: 1;
+        }
+        
+        .school-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .school-name:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .school-name-input {
+            font-size: 24px;
+            font-weight: bold;
+            background: transparent;
+            border: 2px solid #ce1126;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            width: 100%;
+        }
+        
+        .federation {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .main-content {
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .competitor-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .competitor-title {
+            color: #006847;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ce1126;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .add-competitor-btn {
+            background-color: #006847;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .add-competitor-btn:hover {
+            background-color: #004d36;
+        }
+        
+        .competitor-list {
+            list-style-type: none;
+        }
+        
+        .competitor-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .competitor-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .competitor-item.active {
+            background-color: #e8f5e8;
+            border-left: 4px solid #006847;
+        }
+        
+        .competitor-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .competitor-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        
+        .competitor-name:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .competitor-name-input {
+            font-weight: bold;
+            background: transparent;
+            border: 1px solid #006847;
+            padding: 2px 5px;
+            border-radius: 3px;
+            width: 100%;
+        }
+        
+        .competitor-belt {
+            font-size: 12px;
+            color: #666;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+            display: inline-block;
+            width: fit-content;
+        }
+        
+        .competitor-belt:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .belt-select {
+            font-size: 12px;
+            border: 1px solid #006847;
+            border-radius: 3px;
+            padding: 2px 5px;
+            background-color: white;
+            width: 180px;
+        }
+        
+        .competitor-points {
+            font-weight: bold;
+            color: #006847;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+        
+        .delete-competitor {
+            background-color: #ce1126;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .pose-detection {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pose-title {
+            color: #006847;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ce1126;
+        }
+        
+        .pose-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .camera-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .pose-button {
+            background-color: #006847;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .pose-button:hover {
+            background-color: #004d36;
+        }
+        
+        .pose-button.stop {
+            background-color: #ce1126;
+        }
+        
+        .pose-button.stop:hover {
+            background-color: #a71e2d;
+        }
+        
+        .pose-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .pose-canvas-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .pose-canvas {
+            border: 2px solid #006847;
+            border-radius: 5px;
+        }
+        
+        .camera-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .camera-status.active {
+            background-color: #28a745;
+        }
+        
+        .camera-status.inactive {
+            background-color: #ce1126;
+        }
+        
+        .pose-predictions {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+        
+        .prediction-item {
+            background-color: white;
+            padding: 8px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .prediction-item.correct {
+            background-color: #e8f5e8;
+            border-left: 4px solid #28a745;
+        }
+        
+        .prediction-item.incorrect {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .prediction-name {
+            font-weight: bold;
+        }
+        
+        .prediction-status {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .prediction-correct {
+            color: #28a745;
+        }
+        
+        .prediction-incorrect {
+            color: #dc3545;
+        }
+        
+        .export-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .export-btn {
+            background-color: #006847;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .export-btn:hover {
+            background-color: #004d36;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .export-btn:active {
+            transform: translateY(0);
+        }
+        
+        .points-container {
+            flex: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .points-title {
+            color: #006847;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ce1126;
+        }
+        
+        .current-competitor {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .current-competitor-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .current-competitor-name {
+            font-weight: bold;
+            color: #006847;
+        }
+        
+        .points-display {
+            background-color: #006847;
+            color: white;
+            font-size: 72px;
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .control-btn {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .add-points {
+            background-color: #006847;
+            color: white;
+        }
+        
+        .subtract-points {
+            background-color: #ce1126;
+            color: white;
+        }
+        
+        .reset-points {
+            background-color: #ffffff;
+            color: #006847;
+            border: 2px solid #ce1126;
+            grid-column: span 3;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .control-btn:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            background-color: #006847;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .points-display {
+                font-size: 60px;
+                padding: 20px;
+            }
+            
+            .belt-select {
+                width: 150px;
+            }
+            
+            .camera-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .export-container {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    FMTKO<br>MÉXICO
+                </div>
+            </div>
+            <div class="school-info">
+                <div class="school-name" id="schoolNameDisplay">Escuela de Taekwondo "Dragón Rojo"</div>
+                <div class="federation">FEDERACIÓN MEXICANA DE TAEKWONDO A.C.</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="competitor-info">
+                    <h2 class="competitor-title">
+                        Competidores
+                        <button class="add-competitor-btn" id="addCompetitor">+ Agregar</button>
+                    </h2>
+                    <ul class="competitor-list" id="competitorList">
+                        <!-- Los competidores se cargarán dinámicamente -->
+                    </ul>
+                </div>
+                
+                <div class="pose-detection">
+                    <h2 class="pose-title">Reconocimiento de Posiciones</h2>
+                    <div class="pose-container">
+                        <div class="camera-controls">
+                            <button class="pose-button" id="startCamera" type="button">📷 Encender Cámara</button>
+                            <button class="pose-button stop" id="stopCamera" type="button" disabled>⏹️ Apagar Cámara</button>
+                        </div>
+                        <div class="pose-canvas-container">
+                            <canvas id="canvas" class="pose-canvas"></canvas>
+                            <div id="cameraStatus" class="camera-status inactive">Cámara Apagada</div>
+                        </div>
+                        <div id="label-container" class="pose-predictions"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="points-container">
+                <h2 class="points-title">Contador de Puntos</h2>
+                <div class="current-competitor">
+                    <div class="current-competitor-label">Competidor activo:</div>
+                    <div class="current-competitor-name" id="currentCompetitorName">Selecciona un competidor</div>
+                </div>
+                <div class="points-display" id="pointsDisplay">0</div>
+                <div class="controls">
+                    <button class="control-btn add-points" data-points="1">+1</button>
+                    <button class="control-btn add-points" data-points="2">+2</button>
+                    <button class="control-btn add-points" data-points="3">+3</button>
+                    <button class="control-btn subtract-points" data-points="1">-1</button>
+                    <button class="control-btn subtract-points" data-points="2">-2</button>
+                    <button class="control-btn subtract-points" data-points="3">-3</button>
+                    <button class="control-btn reset-points" id="resetPoints">Reiniciar Puntos</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Sistema de Puntuación - Federación Mexicana de Taekwondo © 2023
+        </div>
+
+        <!-- Botón de exportación en esquina inferior derecha -->
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToTXT()">
+                📥 Exportar Registro TXT
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+    <script>
+        // Función para guardar datos en el almacenamiento local
+        function saveToLocalStorage(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                return true;
+            } catch (error) {
+                console.error('Error al guardar en localStorage:', error);
+                return false;
+            }
+        }
+
+        // Función para cargar datos del almacenamiento local
+        function loadFromLocalStorage(key, defaultValue) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : defaultValue;
+            } catch (error) {
+                console.error('Error al cargar desde localStorage:', error);
+                return defaultValue;
+            }
+        }
+
+        // Definición de cintas/grados disponibles
+        const beltGrades = [
+            // Cintas de color
+            "Cinta blanca",
+            "Cinta blanca avanzada",
+            "Cinta anaranjada", 
+            "Cinta anaranjada avanzada",
+            "Cinta amarilla",
+            "Cinta amarilla avanzada",
+            "Cinta verde",
+            "Cinta verde avanzada",
+            "Cinta azul",
+            "Cinta azul avanzada",
+            "Cinta roja",
+            "Cinta roja avanzada",
+            // Cintas negras Pum (para menores de 15 años)
+            "Cinta negra Pum 1er Grado",
+            "Cinta negra Pum 2do Grado", 
+            "Cinta negra Pum 3er Grado",
+            "Cinta negra Pum 4to Grado",
+            "Cinta negra Pum 5to Grado",
+            "Cinta negra Pum 6to Grado",
+            "Cinta negra Pum 7mo Grado",
+            "Cinta negra Pum 8vo Grado",
+            "Cinta negra Pum 9no Grado",
+            // Cintas negras Dan (para mayores de 15 años)
+            "Cinta negra 1er Dan",
+            "Cinta negra 2do Dan", 
+            "Cinta negra 3er Dan",
+            "Cinta negra 4to Dan",
+            "Cinta negra 5to Dan",
+            "Cinta negra 6to Dan",
+            "Cinta negra 7mo Dan",
+            "Cinta negra 8vo Dan",
+            "Cinta negra 9no Dan"
+        ];
+
+        // Variables para el contador de puntos
+        let points = 0;
+        const pointsDisplay = document.getElementById('pointsDisplay');
+        const schoolNameDisplay = document.getElementById('schoolNameDisplay');
+        const resetButton = document.getElementById('resetPoints');
+        const addCompetitorButton = document.getElementById('addCompetitor');
+        const competitorList = document.getElementById('competitorList');
+        const currentCompetitorName = document.getElementById('currentCompetitorName');
+        const startCameraButton = document.getElementById('startCamera');
+        const stopCameraButton = document.getElementById('stopCamera');
+        const cameraStatus = document.getElementById('cameraStatus');
+        
+        // Array para almacenar el registro de movimientos
+        let movementLog = [];
+        
+        // Variables para control de cámara
+        let model, webcam, ctx, labelContainer, maxPredictions;
+        let isCameraActive = false;
+        let animationFrameId = null;
+        
+        // Variable para controlar la detección reciente de posiciones
+        let lastPositionDetected = {};
+        
+        // Cargar nombre de la escuela desde localStorage
+        const savedSchoolName = loadFromLocalStorage('taekwondo_school_name', 'Escuela de Taekwondo "Dragón Rojo"');
+        schoolNameDisplay.textContent = savedSchoolName;
+        
+        // Array de competidores - cargar desde localStorage
+        let competitors = loadFromLocalStorage('taekwondo_competitors', [
+            { id: 1, name: "Kim Yu-Jin", belt: "Cinta negra 1er Dan", points: 0 },
+            { id: 2, name: "Park Min-Ho", belt: "Cinta roja avanzada", points: 0 },
+            { id: 3, name: "Lee Ji-Woo", belt: "Cinta azul", points: 0 },
+            { id: 4, name: "Choi Seung-Hyun", belt: "Cinta verde avanzada", points: 0 },
+            { id: 5, name: "Carlos Mendoza", belt: "Cinta negra Pum 2do Grado", points: 0 }
+        ]);
+        
+        // Competidor activo - cargar desde localStorage
+        let activeCompetitor = loadFromLocalStorage('taekwondo_active_competitor', null);
+        
+        // Función para actualizar estado de la cámara
+        function updateCameraStatus(active) {
+            isCameraActive = active;
+            if (active) {
+                cameraStatus.textContent = "Cámara Activa";
+                cameraStatus.className = "camera-status active";
+                startCameraButton.disabled = true;
+                stopCameraButton.disabled = false;
+            } else {
+                cameraStatus.textContent = "Cámara Apagada";
+                cameraStatus.className = "camera-status inactive";
+                startCameraButton.disabled = false;
+                stopCameraButton.disabled = true;
+                
+                // Limpiar canvas cuando se apaga la cámara
+                const canvas = document.getElementById("canvas");
+                if (canvas) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#f0f0f0';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#666';
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Cámara apagada', canvas.width / 2, canvas.height / 2);
+                }
+                
+                // Limpiar predicciones
+                labelContainer.innerHTML = `
+                    <div class="prediction-item incorrect">
+                        <span class="prediction-name">Cámara apagada</span>
+                        <span class="prediction-status prediction-incorrect">⏹️</span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Función para detener la cámara
+        function stopCamera() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            if (webcam) {
+                webcam.stop();
+                webcam = null;
+            }
+            
+            updateCameraStatus(false);
+        }
+        
+        // Función para guardar todos los datos de la aplicación
+        function saveAppData() {
+            saveToLocalStorage('taekwondo_school_name', schoolNameDisplay.textContent);
+            saveToLocalStorage('taekwondo_competitors', competitors);
+            saveToLocalStorage('taekwondo_active_competitor', activeCompetitor);
+            saveToLocalStorage('taekwondo_points', points);
+            saveToLocalStorage('taekwondo_movement_log', movementLog);
+        }
+        
+        // Función para crear el selector de cintas
+        function createBeltSelector(selectedBelt) {
+            const select = document.createElement('select');
+            select.className = 'belt-select';
+            
+            // Agrupar cintas por categorías
+            const categories = {
+                "Cintas de Color": beltGrades.slice(0, 12),
+                "Cintas Negras Pum (Menores)": beltGrades.slice(12, 21),
+                "Cintas Negras Dan (Mayores)": beltGrades.slice(21)
+            };
+            
+            // Crear opciones agrupadas
+            Object.keys(categories).forEach(category => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = category;
+                
+                categories[category].forEach(belt => {
+                    const option = document.createElement('option');
+                    option.value = belt;
+                    option.textContent = belt;
+                    if (belt === selectedBelt) {
+                        option.selected = true;
+                    }
+                    optgroup.appendChild(option);
+                });
+                
+                select.appendChild(optgroup);
+            });
+            
+            return select;
+        }
+        
+        // Función para renderizar la lista de competidores
+        function renderCompetitors() {
+            competitorList.innerHTML = '';
+            
+            competitors.forEach(competitor => {
+                const competitorItem = document.createElement('li');
+                competitorItem.className = `competitor-item ${activeCompetitor && activeCompetitor.id === competitor.id ? 'active' : ''}`;
+                competitorItem.setAttribute('data-id', competitor.id);
+                
+                competitorItem.innerHTML = `
+                    <div class="competitor-details">
+                        <div class="competitor-name">${competitor.name}</div>
+                        <div class="competitor-belt">${competitor.belt}</div>
+                    </div>
+                    <div class="competitor-points">${competitor.points} pts</div>
+                    <button class="delete-competitor">×</button>
+                `;
+                
+                competitorList.appendChild(competitorItem);
+                
+                // Agregar evento para seleccionar competidor
+                competitorItem.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('delete-competitor') && 
+                        !e.target.classList.contains('competitor-name') &&
+                        !e.target.classList.contains('competitor-belt') &&
+                        !e.target.classList.contains('belt-select')) {
+                        setActiveCompetitor(competitor.id);
+                    }
+                });
+                
+                // Agregar evento para editar nombre
+                const nameElement = competitorItem.querySelector('.competitor-name');
+                nameElement.addEventListener('click', function() {
+                    editCompetitorName(competitor.id, this);
+                });
+                
+                // Agregar evento para editar cinta
+                const beltElement = competitorItem.querySelector('.competitor-belt');
+                beltElement.addEventListener('click', function() {
+                    editCompetitorBelt(competitor.id, this);
+                });
+                
+                // Agregar evento para eliminar competidor
+                const deleteButton = competitorItem.querySelector('.delete-competitor');
+                deleteButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    deleteCompetitor(competitor.id);
+                });
+            });
+            
+            // Guardar cambios
+            saveAppData();
+        }
+        
+        // Función para establecer competidor activo
+        function setActiveCompetitor(id) {
+            activeCompetitor = competitors.find(c => c.id === id);
+            points = activeCompetitor.points;
+            updatePointsDisplay();
+            currentCompetitorName.textContent = activeCompetitor.name;
+            renderCompetitors();
+            
+            // Guardar cambios
+            saveAppData();
+        }
+        
+        // Función para editar nombre de competidor
+        function editCompetitorName(id, element) {
+            const competitor = competitors.find(c => c.id === id);
+            const currentName = competitor.name;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentName;
+            input.className = 'competitor-name-input';
+            
+            input.addEventListener('blur', function() {
+                competitor.name = this.value || 'Competidor';
+                renderCompetitors();
+                if (activeCompetitor && activeCompetitor.id === id) {
+                    currentCompetitorName.textContent = competitor.name;
+                }
+                
+                // Guardar cambios
+                saveAppData();
+            });
+            
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.blur();
+                }
+            });
+            
+            element.parentNode.replaceChild(input, element);
+            input.focus();
+            input.select();
+        }
+        
+        // Función para editar cinta de competidor
+        function editCompetitorBelt(id, element) {
+            const competitor = competitors.find(c => c.id === id);
+            const currentBelt = competitor.belt;
+            const select = createBeltSelector(currentBelt);
+            
+            select.addEventListener('change', function() {
+                competitor.belt = this.value;
+                renderCompetitors();
+                
+                // Guardar cambios
+                saveAppData();
+            });
+            
+            select.addEventListener('blur', function() {
+                renderCompetitors();
+            });
+            
+            element.parentNode.replaceChild(select, element);
+            select.focus();
+        }
+        
+        // Función para agregar competidor
+        function addCompetitor() {
+            const newId = competitors.length > 0 ? Math.max(...competitors.map(c => c.id)) + 1 : 1;
+            const newCompetitor = {
+                id: newId,
+                name: `Competidor ${newId}`,
+                belt: "Cinta blanca",
+                points: 0
+            };
+            
+            competitors.push(newCompetitor);
+            renderCompetitors();
+            setActiveCompetitor(newId);
+            
+            // Guardar cambios
+            saveAppData();
+        }
+        
+        // Función para eliminar competidor
+        function deleteCompetitor(id) {
+            if (competitors.length <= 1) {
+                alert("Debe haber al menos un competidor");
+                return;
+            }
+            
+            if (activeCompetitor && activeCompetitor.id === id) {
+                // Si eliminamos el competidor activo, seleccionamos el primero disponible
+                const newActive = competitors.find(c => c.id !== id);
+                setActiveCompetitor(newActive.id);
+            }
+            
+            competitors = competitors.filter(c => c.id !== id);
+            renderCompetitors();
+            
+            // Guardar cambios
+            saveAppData();
+        }
+        
+        // Función para actualizar la visualización de puntos
+        function updatePointsDisplay() {
+            pointsDisplay.textContent = points;
+            
+            // Cambiar color según la cantidad de puntos usando la paleta verde, blanco y rojo
+            if (points < 0) {
+                pointsDisplay.style.backgroundColor = '#ce1126'; // Rojo para valores negativos
+                pointsDisplay.style.color = 'white';
+            } else if (points === 0) {
+                pointsDisplay.style.backgroundColor = '#ffffff'; // Blanco para cero
+                pointsDisplay.style.color = '#006847';
+            } else {
+                pointsDisplay.style.backgroundColor = '#006847'; // Verde para valores positivos
+                pointsDisplay.style.color = 'white';
+            }
+            
+            // Actualizar puntos del competidor activo
+            if (activeCompetitor) {
+                activeCompetitor.points = points;
+                renderCompetitors();
+            }
+            
+            // Guardar cambios
+            saveAppData();
+        }
+        
+        // Función para registrar movimiento en el log
+        function logMovement(className, isCorrect, probability) {
+            const timestamp = new Date().toLocaleString();
+            const competitorName = activeCompetitor ? activeCompetitor.name : 'No seleccionado';
+            const logEntry = {
+                timestamp: timestamp,
+                competitor: competitorName,
+                movement: className,
+                correct: isCorrect,
+                probability: probability,
+                points: points
+            };
+            
+            movementLog.push(logEntry);
+            saveAppData();
+            
+            console.log(`Movimiento registrado: ${className} - ${isCorrect ? 'CORRECTO' : 'INCORRECTO'} - ${probability}%`);
+        }
+        
+        // Función para exportar a TXT
+        function exportToTXT() {
+            if (movementLog.length === 0) {
+                alert("No hay movimientos registrados para exportar");
+                return;
+            }
+            
+            let txtContent = `REGISTRO DE MOVIMIENTOS - SISTEMA DE PUNTUACIÓN TAEKWONDO\n`;
+            txtContent += `============================================================\n`;
+            txtContent += `Escuela: ${schoolNameDisplay.textContent}\n`;
+            txtContent += `Fecha de exportación: ${new Date().toLocaleString()}\n`;
+            txtContent += `Total de movimientos registrados: ${movementLog.length}\n`;
+            txtContent += `============================================================\n\n`;
+            
+            // Agrupar movimientos por competidor
+            const movementsByCompetitor = {};
+            movementLog.forEach(entry => {
+                if (!movementsByCompetitor[entry.competitor]) {
+                    movementsByCompetitor[entry.competitor] = [];
+                }
+                movementsByCompetitor[entry.competitor].push(entry);
+            });
+            
+            // Escribir movimientos por competidor
+            Object.keys(movementsByCompetitor).forEach(competitor => {
+                txtContent += `COMPETIDOR: ${competitor}\n`;
+                txtContent += `----------------------------------------\n`;
+                
+                movementsByCompetitor[competitor].forEach((entry, index) => {
+                    txtContent += `  Movimiento ${index + 1}:\n`;
+                    txtContent += `    Fecha/Hora: ${entry.timestamp}\n`;
+                    txtContent += `    Técnica: ${entry.movement}\n`;
+                    txtContent += `    Resultado: ${entry.correct ? 'CORRECTO ✅' : 'INCORRECTO ❌'}\n`;
+                    txtContent += `    Probabilidad: ${(entry.probability * 100).toFixed(1)}%\n`;
+                    txtContent += `    Puntos acumulados: ${entry.points}\n`;
+                    txtContent += `    ---------------------------------\n`;
+                });
+                txtContent += `\n`;
+            });
+            
+            // Estadísticas finales
+            const correctMovements = movementLog.filter(m => m.correct).length;
+            const incorrectMovements = movementLog.filter(m => !m.correct).length;
+            const successRate = movementLog.length > 0 ? (correctMovements / movementLog.length * 100).toFixed(1) : 0;
+            
+            txtContent += `ESTADÍSTICAS FINALES:\n`;
+            txtContent += `----------------------------------------\n`;
+            txtContent += `Total de movimientos: ${movementLog.length}\n`;
+            txtContent += `Movimientos correctos: ${correctMovements}\n`;
+            txtContent += `Movimientos incorrectos: ${incorrectMovements}\n`;
+            txtContent += `Tasa de éxito: ${successRate}%\n`;
+            txtContent += `Puntos totales acumulados: ${points}\n`;
+            
+            // Intentar usar la API File System Access si está disponible
+            if ('showSaveFilePicker' in window) {
+                exportWithFileSystemAPI(txtContent);
+            } else {
+                // Fallback: descarga normal
+                downloadFile(txtContent);
+            }
+        }
+        
+        // Función para exportar usando File System Access API (más moderno)
+        async function exportWithFileSystemAPI(content) {
+            try {
+                const options = {
+                    suggestedName: `Sistema_Puntuacion_Taekwondo_${new Date().toISOString().split('T')[0]}.txt`,
+                    types: [
+                        {
+                            description: 'Archivos de texto',
+                            accept: {
+                                'text/plain': ['.txt'],
+                            },
+                        },
+                    ],
+                };
+                
+                const handle = await window.showSaveFilePicker(options);
+                const writable = await handle.createWritable();
+                await writable.write(content);
+                await writable.close();
+                
+                alert(`Archivo guardado exitosamente como: ${handle.name}`);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Error al guardar con File System API:', error);
+                    // Fallback a descarga normal
+                    downloadFile(content);
+                }
+            }
+        }
+        
+        // Función para descarga normal (fallback)
+        function downloadFile(content) {
+            const blob = new Blob([content], { type: 'text/plain; charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Sistema_Puntuacion_Taekwondo_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Archivo descargado. Por favor, guárdalo manualmente en la carpeta: C:\\Users\\Kanaki\\Documents\\UABC\\Portafolio\\Lenguages\\HTML');
+        }
+        
+        // Manejar clics en botones de agregar puntos
+        document.querySelectorAll('.add-points').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!activeCompetitor) {
+                    alert("Selecciona un competidor primero");
+                    return;
+                }
+                
+                const pointsToAdd = parseInt(this.getAttribute('data-points'));
+                points += pointsToAdd;
+                updatePointsDisplay();
+                
+                // Efecto visual al agregar puntos
+                pointsDisplay.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    pointsDisplay.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+        
+        // Manejar clics en botones de restar puntos
+        document.querySelectorAll('.subtract-points').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!activeCompetitor) {
+                    alert("Selecciona un competidor primero");
+                    return;
+                }
+                
+                const pointsToSubtract = parseInt(this.getAttribute('data-points'));
+                points -= pointsToSubtract;
+                updatePointsDisplay();
+                
+                // Efecto visual al restar puntos
+                pointsDisplay.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    pointsDisplay.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+        
+        // Manejar clic en botón de reinicio
+        resetButton.addEventListener('click', function() {
+            if (!activeCompetitor) {
+                alert("Selecciona un competidor primero");
+                return;
+            }
+            
+            points = 0;
+            updatePointsDisplay();
+            
+            // Efecto visual al reiniciar
+            pointsDisplay.style.transform = 'rotate(360deg)';
+            pointsDisplay.style.transition = 'transform 0.5s';
+            setTimeout(() => {
+                pointsDisplay.style.transform = 'rotate(0deg)';
+            }, 500);
+        });
+        
+        // Agregar evento al botón de añadir competidor
+        addCompetitorButton.addEventListener('click', addCompetitor);
+        
+        // Permitir editar el nombre de la escuela y guardarlo
+        schoolNameDisplay.addEventListener('click', function() {
+            const currentName = this.textContent;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentName;
+            input.className = 'school-name-input';
+            
+            input.addEventListener('blur', function() {
+                const newName = this.value || 'Escuela de Taekwondo';
+                schoolNameDisplay.textContent = newName;
+                schoolNameDisplay.style.display = 'block';
+                
+                // Guardar el cambio en localStorage
+                saveToLocalStorage('taekwondo_school_name', newName);
+            });
+            
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.blur();
+                }
+            });
+            
+            this.style.display = 'none';
+            this.parentNode.insertBefore(input, this);
+            input.focus();
+            input.select();
+        });
+        
+        // Código para Teachable Machine Pose Model
+        // La URL de tu modelo proporcionada por el panel de exportación de Teachable Machine
+        const URL = "https://teachablemachine.withgoogle.com/models/z-A_DQwGK/";
+        
+        async function init() {
+            try {
+                const modelURL = URL + "model.json";
+                const metadataURL = URL + "metadata.json";
+
+                // Cargar el modelo y los metadatos
+                model = await tmPose.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+
+                // Configurar la webcam
+                const size = 300;
+                const flip = true; // si voltear la webcam
+                webcam = new tmPose.Webcam(size, size, flip); // ancho, alto, voltear
+                await webcam.setup(); // solicitar acceso a la webcam
+                await webcam.play();
+                
+                // Obtener/agregar elementos al DOM
+                const canvas = document.getElementById("canvas");
+                canvas.width = size; 
+                canvas.height = size;
+                ctx = canvas.getContext("2d");
+                labelContainer = document.getElementById("label-container");
+                labelContainer.innerHTML = '';
+                
+                // Inicializar el objeto de detecciones recientes
+                for (let i = 0; i < maxPredictions; i++) {
+                    lastPositionDetected[i] = 0;
+                }
+                
+                // Actualizar estado de la cámara
+                updateCameraStatus(true);
+                
+                // Iniciar el bucle de predicción
+                animationFrameId = window.requestAnimationFrame(loop);
+                
+            } catch (error) {
+                console.error("Error al inicializar el modelo:", error);
+                alert("Error al cargar el modelo. Asegúrate de que los archivos del modelo estén en la carpeta correcta.");
+                updateCameraStatus(false);
+            }
+        }
+
+        async function loop(timestamp) {
+            if (!isCameraActive) return;
+            
+            webcam.update(); // actualizar el frame de la webcam
+            await predict();
+            animationFrameId = window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            if (!isCameraActive || !webcam) return;
+            
+            // Predicción #1: ejecutar entrada a través de posenet
+            const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+            // Predicción #2: ejecutar entrada a través del modelo de clasificación de Teachable Machine
+            const prediction = await model.predict(posenetOutput);
+
+            // Encontrar la predicción con mayor probabilidad
+            let maxProbability = 0;
+            let bestPrediction = null;
+            
+            for (let i = 0; i < maxPredictions; i++) {
+                if (prediction[i].probability > maxProbability) {
+                    maxProbability = prediction[i].probability;
+                    bestPrediction = prediction[i];
+                }
+            }
+
+            // Actualizar la interfaz con solo la mejor predicción
+            if (bestPrediction && maxProbability > 0.5) {
+                const isCorrect = maxProbability > 0.85;
+                const status = isCorrect ? '✅ CORRECTO' : '❌ INCORRECTO';
+                const statusClass = isCorrect ? 'correct' : 'incorrect';
+                const statusColor = isCorrect ? 'prediction-correct' : 'prediction-incorrect';
+                
+                labelContainer.innerHTML = `
+                    <div class="prediction-item ${statusClass}">
+                        <span class="prediction-name">${bestPrediction.className}</span>
+                        <span class="prediction-status ${statusColor}">${status}</span>
+                    </div>
+                `;
+                
+                // Si es correcto y ha pasado el tiempo mínimo, agregar punto
+                if (isCorrect && activeCompetitor) {
+                    const currentTime = Date.now();
+                    if (currentTime - lastPositionDetected[0] > 2000) {
+                        points += 1;
+                        updatePointsDisplay();
+                        lastPositionDetected[0] = currentTime;
+                        
+                        // Efecto visual al agregar puntos automáticamente
+                        pointsDisplay.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            pointsDisplay.style.transform = 'scale(1)';
+                        }, 200);
+                        
+                        // Registrar movimiento correcto
+                        logMovement(bestPrediction.className, true, maxProbability);
+                    }
+                } else if (!isCorrect && maxProbability > 0.7) {
+                    // Registrar movimiento incorrecto (solo si tiene cierta probabilidad)
+                    const currentTime = Date.now();
+                    if (currentTime - lastPositionDetected[0] > 2000) {
+                        lastPositionDetected[0] = currentTime;
+                        logMovement(bestPrediction.className, false, maxProbability);
+                    }
+                }
+            } else {
+                // No hay predicciones con suficiente confianza
+                labelContainer.innerHTML = `
+                    <div class="prediction-item incorrect">
+                        <span class="prediction-name">No se detectó movimiento</span>
+                        <span class="prediction-status prediction-incorrect">❌</span>
+                    </div>
+                `;
+            }
+
+            // Dibujar las poses
+            drawPose(pose);
+        }
+
+        function drawPose(pose) {
+            if (!isCameraActive || !webcam || !webcam.canvas) return;
+            
+            ctx.drawImage(webcam.canvas, 0, 0);
+            // dibujar los puntos clave y el esqueleto
+            if (pose) {
+                const minPartConfidence = 0.5;
+                tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+                tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+            }
+        }
+        
+        // Event listeners para los botones de cámara
+        startCameraButton.addEventListener('click', init);
+        stopCameraButton.addEventListener('click', stopCamera);
+        
+        // Detener la cámara cuando se cierra la página
+        window.addEventListener('beforeunload', stopCamera);
+        
+        // Inicializar la aplicación
+        function initializeApp() {
+            // Cargar log de movimientos
+            movementLog = loadFromLocalStorage('taekwondo_movement_log', []);
+            
+            renderCompetitors();
+            updatePointsDisplay();
+            updateCameraStatus(false);
+            
+            // Si hay un competidor activo guardado, cargar sus puntos
+            if (activeCompetitor) {
+                points = activeCompetitor.points;
+                currentCompetitorName.textContent = activeCompetitor.name;
+                updatePointsDisplay();
+            }
+        }
+    
+        // Inicializar cuando se carga la página
+        initializeApp();
+    </script>
+</body>
+</html>
