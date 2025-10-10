@@ -19,12 +19,12 @@
  * var -> Infiere el tipo automaticamente
  */
 
-//* Declaracion de variables con var (Inferencia de tipo)
 
 void main() {
+//* Declaracion de variables con var (Inferencia de tipo)
 
 var nombre = "Juan";
-var edad;
+var edad; //? Se puede iniciar con una variable vacia para despues establecer un uso concreto dentro del codigo
 var precio = 20.50;
 var estatus = true;
 
@@ -37,6 +37,7 @@ y su edad es $edad años''');
 print('========================');
 
 //* Declaracion de variables con tipo explicito
+//? Solo se puede sustituir la informacion de la variable del mismo tipo previamente establecido
 
 String nombres = 'Maria';
 int edades = 21;
@@ -51,9 +52,10 @@ print('\nElla vende un chocolate a $precios pesos');
 print('========================');
 
 //* Declaracon con tipo dinamico
+//? Son aquellas variables que pueden cambiar de tipo sin afectar el codigo dependiendo de su uso
 print('Declaracion con tipo dinamico\n');
 
-dynamic variableDinamica = "Hola";
+dynamic variableDinamica = "Hola"; // Inicia como string
 print(variableDinamica);
 
 variableDinamica = 100;      // ✅ Ahora es int
@@ -71,3 +73,15 @@ final int edadfin = 40;
 print('Declaracion con final\n');
 print('Su nombre es $nombrefin y su edad es $edadfin año\n');
 }
+
+/**
+ * En todos estos ejemplos se puede notar que tienen en comun
+ * el que se deben de iniciar, ya sea con alguna de las
+ * formas para declarar (var, tipo explicito, dinamica y/o final)
+ */
+
+/**
+ * En caso de querer usar una misma variable previamente usada,
+ * primero debe de estar inicializada y despues se puede usar
+ * para darle otro valor; como es el caso de los contadores.
+ */
