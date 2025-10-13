@@ -191,7 +191,6 @@ const List<int> numeros = [1, 2, 3];
 print('''Constantes
 
 El valor de pi es -> $pi_const''');
-
 print('\n========================\n');
 
 //* Final
@@ -259,22 +258,22 @@ print(s); // Symbol("nombreSimbolo")
 
 //! Caracteristicas Clave
 //? En Dart, TODO es un objeto
-int numero = 42;
-print(numero.isEven); // true - método en un int
+int numero_obj = 42;
+print(numero_obj.isEven); // true - método en un int
 print(42.toString()); // "42" - método en un literal
 
 //? Dart infiere el tipo automáticamente
-var lista = [1, 2, 3]; // List<int>
-var mapa = {'a': 1, 'b': 2}; // Map<String, int>
+var lista_inf = [1, 2, 3]; // List<int>
+var mapa_inf = {'a': 1, 'b': 2}; // Map<String, int>
 
 //?Dart puede realizar conversion entre datos
 // String → int/double
-int numero = int.parse('123');
-double decimal = double.parse('3.14');
+int numero_conver = int.parse('123');
+double decimal_conver = double.parse('3.14');
 
 // int/double → String
-String textoNumero = 123.toString();
-String textoDecimal = 3.14.toStringAsFixed(2); // "3.14"
+String textoNumero_conver = 123.toString();
+String textoDecimal_conver = 3.14.toStringAsFixed(2); // "3.14"
 
 //? Dart puede verificar tipos en tiempo de ejecucion
 var valor = 'Hola';
