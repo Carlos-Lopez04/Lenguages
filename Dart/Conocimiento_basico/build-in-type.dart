@@ -1,5 +1,6 @@
 void main() {
 
+//! Tipos primitivos o Basicos
 //* Numeros
 
 //? Enteros
@@ -28,7 +29,9 @@ num division = a/b;
 num division_entera = a~/b;
 num modulo = a%b;
 
-print('''\nOperaciones numericas
+print('''\nTipos basicos
+
+Operaciones numericas
 
 La suma es -> $suma
 La resta es -> $resta
@@ -71,8 +74,11 @@ Mayor -> $esMayor
 Tiene permismo -> $tiene_permiso\n''');
 print('========================\n');
 
+//! Tipos de colecciones
 //* Listas
-print('Listas\n');
+print('''Tipos de colecciones
+
+Listas\n''');
 
 //? Lista de longitud fija
 List<int> numerosFijos = List<int>.filled(3, 0); // [0, 0, 0]
@@ -118,4 +124,162 @@ print(setA.intersection(setB)); // {2, 3} Los que estan similares
 print(setA.difference(setB));   // {1} Solo muestra el diferente
 print('\n========================\n');
 
+//* Mapas
+
+//? Creación
+Map<String, dynamic> persona = {
+  'nombre': 'María',
+  'edad': 30,
+  'soltera': true,
+  'hobbies': ['leer', 'nadar']
+};
+
+Map<int, String> estados = {
+  1: 'Pendiente',
+  2: 'Aprobado',
+  3: 'Rechazado'
+};
+
+//? Operaciones
+print('Mapas\n');
+print(persona['nombre']);        // Acceso
+persona['ciudad'] = 'Madrid';    // Añadir/actualizar
+persona.remove('soltera');       // Remover
+print(persona.containsKey('edad')); // Verificar clave
+print(persona.length);           // Número de pares
+
+//? Iteración
+persona.forEach((clave, valor) {
+  print('$clave: $valor');
+});
+print('\n========================\n');
+
+//! Tipos especiales
+//* Dinamicos
+dynamic variable = 'Soy texto';
+variable = 100;        // Ahora es int
+variable = [1, 2, 3];  // Ahora es List
+
+
+print('''Dinamicos
+
+$variable''');
+print('\n========================\n');
+
+//* Inferencia de tipos
+var var_nombre = 'Carlos';     // Inferido como String
+var var_edad = 25;             // Inferido como int  
+var var_precio = 19.99;        // Inferido como double
+var var_lista = [1, 2, 3];     // Inferido como List<int>
+
+print('''Inferencia de tipos
+
+Datos de la persona
+Nombre -> $var_nombre
+Edad -> $var_edad''');
+print('\n========================\n');
+
+//* Constantes
+
+//? valor constante en tiempo de compilación
+const double pi_const = 3.1416;
+const List<int> numeros = [1, 2, 3];
+
+//? Con constructores
+// const punto = Point(0, 0);
+
+print('''Constantes
+
+El valor de pi es -> $pi_const''');
+
+print('\n========================\n');
+
+//* Final
+//? Asignación única en tiempo de ejecución
+final fechaActual = DateTime.now();
+final String nombreUsuario = 'Ana';
+
+print('''Final
+
+Hoy es -> $fechaActual''');
+print('\n========================\n');
+
+//! Tipos para manejo de nulos
+//* Null Safety ? ! late
+
+//? Tipo nullable (puede ser null)
+// String? nombreNullable = null;
+// int? edadNullable;
+
+//? Acceso seguro
+// print(nombreNullable?.length); // null si nombreNullable es null
+
+//? Assertion operator (!)
+// String nombre_null = nombreNullable!; // Confiamos en que no es null
+
+//? late initialization
+// late String descripcion;
+// void inicializar() {
+//   descripcion = 'Valor inicializado después';
+// }
+
+//! Tipos para colecciones especializados
+//* Iterable - Secuencia Lazy de elementos
+
+Iterable<int> numeros_iter = [1, 2, 3, 4, 5];
+var pares_iter = numeros.where((n) => n % 2 == 0);
+var dobles_iter = numeros.map((n) => n * 2);
+
+print('''Secuencia Lazy
+
+La lista original es:
+$numeros_iter
+
+Los pares son:
+$pares_iter
+
+Los dobles son:
+$dobles_iter''');
+print('\n========================\n');
+
+//* Runes - Puntos de codigo Unicode
+String emoji = '😀';
+Runes runes = emoji.runes;
+print('''Runes
+
+$runes'''); // (128512)
+
+String heart = '\u2665';
+print(heart); // ♥
+print('\n========================\n');
+
+//* Symbols - Identificadores utilizados en reflexion
+Symbol s = #nombreSimbolo;
+print(s); // Symbol("nombreSimbolo")
+
+//! Caracteristicas Clave
+//? En Dart, TODO es un objeto
+int numero = 42;
+print(numero.isEven); // true - método en un int
+print(42.toString()); // "42" - método en un literal
+
+//? Dart infiere el tipo automáticamente
+var lista = [1, 2, 3]; // List<int>
+var mapa = {'a': 1, 'b': 2}; // Map<String, int>
+
+//?Dart puede realizar conversion entre datos
+// String → int/double
+int numero = int.parse('123');
+double decimal = double.parse('3.14');
+
+// int/double → String
+String textoNumero = 123.toString();
+String textoDecimal = 3.14.toStringAsFixed(2); // "3.14"
+
+//? Dart puede verificar tipos en tiempo de ejecucion
+var valor = 'Hola';
+
+print(valor is String);    // true
+print(valor is int);       // false  
+print(valor is! bool);     // true
 }
