@@ -73,6 +73,29 @@ crearUsuario('Pedro', rol: 'admin'); // Personaliza solo un parámetro
 print('\n========================\n');
 
 //* Funciones Arrow
+
+/** Tipos de funciones que se pueden convertir a arrow
+ *? ✅ Numéricas
+double calcularAreaCirculo(double radio) => 3.1416 * radio * radio;
+int factorial(int n) => n <= 1 ? 1 : n * factorial(n - 1);
+
+//? ✅ Booleanas
+bool esPar(int numero) => numero % 2 == 0;
+bool contieneTexto(String texto, String busqueda) => texto.contains(busqueda);
+
+//? ✅ Strings
+String formatearNombre(String nombre, String apellido) => '$nombre $apellido'.toUpperCase();
+String obtenerIniciales(String nombre) => nombre.split(' ').map((p) => p[0]).join();
+
+//? ✅ Listas
+List<int> generarSecuencia(int n) => List.generate(n, (index) => index + 1);
+List<String> dividirPalabras(String texto) => texto.split(' ');
+
+//? ✅ Maps
+Map<String, dynamic> crearUsuario(String nombre, int edad) => 
+    {'nombre': nombre, 'edad': edad, 'activo': true};
+ */
+
 // Forma tradicional
 int cuadrado(int numero) {
   return numero * numero;
