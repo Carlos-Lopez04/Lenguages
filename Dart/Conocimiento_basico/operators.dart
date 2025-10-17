@@ -138,10 +138,10 @@ void operadoresNullAware() {
   // ?. - Acceso seguro a miembros
   String? texto;
   print(texto?.length);     // null (no causa error)
-  print(apellido?.length);  // 5
+  print(apellido.length);  // 5
   
   // ! - Operador de afirmación nula (solo si estás SEGURO)
-  String nombreSeguro = nombre!; // Convierte String? a String
+  String nombreSeguro = nombre; // Convierte String? a String
   print(nombreSeguro.toUpperCase()); // JUAN
   print('\n========================\n');
 }
