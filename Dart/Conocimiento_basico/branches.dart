@@ -256,7 +256,7 @@ void assert_() {
   
   // Con expresiones más complejas
   String? nombre = 'Juan';
-  assert(nombre != null && nombre.isNotEmpty, 'El nombre no puede estar vacío');
+  assert(nombre.isNotEmpty, 'El nombre no puede estar vacío');
   print('\n========================\n');
 }
 
